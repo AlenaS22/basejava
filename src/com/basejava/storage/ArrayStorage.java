@@ -1,3 +1,5 @@
+package com.basejava.storage;
+
 import java.util.Arrays;
 
 /**

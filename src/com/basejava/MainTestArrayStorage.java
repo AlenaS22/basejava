@@ -1,5 +1,8 @@
+import com.basejava.storage.ArrayStorage;
+import com.basejava.model.Resume;
+
 /**
- * Test for your ArrayStorage implementation
+ * Test for your com.basejava.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
     static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
