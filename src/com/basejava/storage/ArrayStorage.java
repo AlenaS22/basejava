@@ -8,46 +8,55 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private final Resume[] storage = new Resume[10000];
-    private int size = 0;
+    private final Resume[] storage = new Resume[10_000];
+    private int size;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void save(Resume r) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(r.toString())) {
-                printMessage("save1");
-                return;
+    public void save(Resume resume) {
+        if (getIndex(resume.getUuid()) != -1) {
+            printMessage("save1");
+            return;
             }
-        }
         if (size == storage.length) {
             printMessage("save2");
             return;
         }
-        storage[size++] = r;
+        storage[size++] = resume;
     }
 
-    public void update(Resume r) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(r.toString())) {
-                storage[i].setUuid("uuid_update");
-                return;
-            }
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index != -1) {
+            storage[index].setUuid("uuid_update");
+            return;
         }
         printMessage("update");
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].toString())) {
-                return storage[i];
+        int index = getIndex(uuid);
+        if (index != -1) {
+            return storage[index];
             }
-        }
         printMessage("get");
         return null;
+    }
+
+    public void delete(String uuid) {
+        int index = getIndex(uuid);
+        if (index == -1) {
+            printMessage("delete");
+            return;
+        }
+        if (size - 1 - index >= 0) {
+            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+        }
+        storage[size - 1] = null;
+        size--;
     }
 
     public int getIndex(String uuid) {
@@ -59,19 +68,6 @@ public class ArrayStorage {
             }
         }
         return index;
-    }
-
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index == -1) {
-            printMessage("delete");
-            return;
-        }
-        for (int i = index; i < size - 1; i++) {
-            storage[i] = storage[i + 1];
-        }
-        storage[size - 1] = null;
-        size--;
     }
 
     /**
