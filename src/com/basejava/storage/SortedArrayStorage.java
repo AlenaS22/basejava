@@ -6,13 +6,10 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
-    protected void saveUuid(Resume resume) {
-        int index = Math.abs(getIndex(resume.getUuid()) + 1);
-        if (storage[index] != null) {
-            System.arraycopy(storage, index, storage, index + 1, size - index);
-        }
+    protected void saveResume(Resume resume, int index) {
+        index = Math.abs(index + 1);
+        System.arraycopy(storage, index, storage, index + 1, size - index);
         storage[index] = resume;
-        size++;
     }
 
     @Override

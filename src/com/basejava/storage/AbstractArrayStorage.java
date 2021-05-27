@@ -23,15 +23,16 @@ public abstract class AbstractArrayStorage implements Storage {
             printMessage("save2", resume.getUuid());
             return;
         }
-        saveUuid(resume);
+        saveResume(resume, getIndex(resume.getUuid()));
+        size++;
     }
 
-    protected abstract void saveUuid(Resume resume);
+    protected abstract void saveResume(Resume resume, int index);
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index != -1) {
-            storage[index].setUuid("uuid_update");
+            storage[index] = resume;
             return;
         }
         printMessage("update", resume.getUuid());
