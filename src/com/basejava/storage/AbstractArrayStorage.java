@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index > 0) {
+        if (index >= 0) {
             storage[index] = resume;
             return;
         }
@@ -41,7 +41,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index > 0) {
+        if (index >= 0) {
             return storage[index];
         }
         printMessage("get", uuid);
