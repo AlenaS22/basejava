@@ -15,7 +15,8 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) >= 0) {
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
             printMessage("save1", resume.getUuid());
             return;
         }
@@ -23,7 +24,7 @@ public abstract class AbstractArrayStorage implements Storage {
             printMessage("save2", resume.getUuid());
             return;
         }
-        saveResume(resume, getIndex(resume.getUuid()));
+        saveResume(resume, index);
         size++;
     }
 
@@ -31,7 +32,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index != -1) {
+        if (index > 0) {
             storage[index] = resume;
             return;
         }
@@ -40,7 +41,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index != -1) {
+        if (index > 0) {
             return storage[index];
         }
         printMessage("get", uuid);
@@ -49,12 +50,13 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
+        if (index < 0) {
             printMessage("delete", uuid);
             return;
         }
-        if (size - 1 - index >= 0) {
-            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+        int numMoved = size - 1 - index;
+        if (numMoved > 0) {
+            System.arraycopy(storage, index + 1, storage, index, numMoved);
         }
         storage[size - 1] = null;
         size--;

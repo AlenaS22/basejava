@@ -7,7 +7,7 @@ import com.basejava.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
     protected void saveResume(Resume resume, int index) {
-        storage[index + size + 1] = resume;
+        storage[size] = resume;
     }
 
     protected int getIndex(String uuid) {
