@@ -1,5 +1,8 @@
 package com.basejava.storage;
 
+import com.basejava.exception.ExistStorageException;
+import com.basejava.exception.NotExistStorageException;
+import com.basejava.exception.StorageException;
 import com.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -17,12 +20,12 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
-            printMessage("save1", resume.getUuid());
-            return;
+            throw new ExistStorageException(resume.getUuid());
+            // printMessage("save1", resume.getUuid());
         }
         if (size == STORAGE_LIMIT) {
-            printMessage("save2", resume.getUuid());
-            return;
+            throw new StorageException("Резюме невозможно сохранить! Хранилище переполнено. Обратитесь к администратору.", resume.getUuid());
+            // printMessage("save2", resume.getUuid());
         }
         saveResume(resume, index);
         size++;
@@ -32,27 +35,26 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index >= 0) {
+        if (index < 0) {
+            throw new NotExistStorageException(resume.getUuid());
+        } else {
             storage[index] = resume;
-            return;
         }
-        printMessage("update", resume.getUuid());
     }
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index >= 0) {
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        } else {
             return storage[index];
         }
-        printMessage("get", uuid);
-        return null;
     }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            printMessage("delete", uuid);
-            return;
+            throw new NotExistStorageException(uuid);
         }
         int numMoved = size - 1 - index;
         if (numMoved > 0) {
@@ -73,19 +75,5 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public int size() {
         return size;
-    }
-
-    protected void printMessage(String operation, String uuid) {
-        if (operation.equals("update") || operation.equals("get") || operation.equals("delete")) {
-            System.out.println("Резюме " + uuid + " не найдено! Укажите существующее резюме.");
-            return;
-        }
-        if (operation.equals("save1")) {
-            System.out.println("Введенное резюме " + uuid + " уже существует! Укажите другое резюме.");
-            return;
-        }
-        if (operation.equals("save2")) {
-            System.out.println("Резюме невозможно сохранить! Хранилище переполнено. Обратитесь к администратору.");
-        }
     }
 }
