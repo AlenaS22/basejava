@@ -2,14 +2,13 @@ package com.basejava.storage;
 
 import com.basejava.exception.ExistStorageException;
 import com.basejava.exception.NotExistStorageException;
-import com.basejava.exception.StorageException;
 import com.basejava.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public abstract class AbstractArrayStorageTest {
+public class ListStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -20,11 +19,7 @@ public abstract class AbstractArrayStorageTest {
     private static final Resume r3 = new Resume(UUID_3);
     private static final Resume r4 = new Resume(UUID_4);
 
-    private final Storage storage;
-
-    public AbstractArrayStorageTest(Storage storage) {
-        this.storage = storage;
-    }
+    private final Storage storage = new ListStorage();
 
     @BeforeEach
     public void setUp() {
@@ -50,18 +45,6 @@ public abstract class AbstractArrayStorageTest {
     @Test
     void saveExist() {
         assertThrows(ExistStorageException.class, () -> storage.save(r1));
-    }
-
-    @Test
-    void saveOverflow() {
-        try {
-            for (int i = 3; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException ex) {
-            fail("Test failed");
-        }
-        assertThrows(StorageException.class, () -> storage.save(new Resume()));
     }
 
     @Test
