@@ -1,39 +1,38 @@
-/*ArrayList*/
 package com.basejava.storage;
 
 import com.basejava.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
-    private final List<Resume> storage = new ArrayList<>();
+public class MapStorage extends AbstractStorage {
+    private final Map<String, Resume> storage = new LinkedHashMap<>();
 
     public void clear() {
         storage.clear();
     }
 
     protected void saveResume(Resume resume, int index) {
-        storage.add(resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     protected void updateResume(Resume resume, int index) {
-        storage.set(index, resume);
+        storage.replace(resume.getUuid(), resume);
     }
 
     protected Resume getResume(int index, String uuid) {
-        return storage.get(index);
+        return storage.get(uuid);
     }
 
     protected void deleteResume(int index, String uuid) {
-        storage.remove(index);
+        storage.remove(uuid);
     }
 
     protected int getIndex(String uuid) {
         int index = -1;
-        for (int i = 0; i < storage.size(); i++) {
-            if (uuid.equals(storage.get(i).getUuid())) {
-                index = i;
+        for (Map.Entry<String, Resume> i : storage.entrySet()) {
+            if (uuid.equals(i.getKey())) {
+                index = uuid.hashCode();
                 break;
             }
         }
@@ -41,10 +40,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+        return storage.values().toArray(new Resume[0]);
     }
 
     public int size() {
         return storage.size();
     }
+
 }

@@ -59,7 +59,7 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume());
             }
         } catch (StorageException ex) {
-            fail("Test failed");
+            fail("Преждевременное переполнение хранилища");
         }
         assertThrows(StorageException.class, () -> storage.save(new Resume()));
     }
@@ -99,14 +99,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     void getAll() {
-        Resume[] array = storage.getAll();
-        assertEquals(r1, array[0]);
-        assertEquals(r2, array[1]);
-        assertEquals(r3, array[2]);
-        assertEquals(3, array.length);
-
+        Resume[] actualResumes = storage.getAll();
         Resume[] expectedArray = {r1, r2, r3};
-        assertArrayEquals(expectedArray, array);
+        assertArrayEquals(expectedArray, actualResumes);
     }
 
     @Test
