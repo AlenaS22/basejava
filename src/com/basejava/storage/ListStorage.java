@@ -13,23 +13,23 @@ public class ListStorage extends AbstractStorage {
         storage.clear();
     }
 
-    protected void saveResume(Resume resume, int index) {
+    protected void saveResume(Resume resume, Object index) {
         storage.add(resume);
     }
 
-    protected void updateResume(Resume resume, int index) {
-        storage.set(index, resume);
+    protected void updateResume(Resume resume, Object index) {
+        storage.set((Integer) index, resume);
     }
 
-    protected Resume getResume(int index, String uuid) {
-        return storage.get(index);
+    protected Resume getResume(Object index, Object uuid) {
+        return storage.get((Integer) index);
     }
 
-    protected void deleteResume(int index, String uuid) {
-        storage.remove(index);
+    protected void deleteResume(Object index, Object uuid) {
+        storage.remove(((Integer) index).intValue());
     }
 
-    protected int getIndex(String uuid) {
+    protected Object getSearchKey(String uuid) {
         int index = -1;
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {

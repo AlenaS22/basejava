@@ -12,31 +12,31 @@ public class MapStorage extends AbstractStorage {
         storage.clear();
     }
 
-    protected void saveResume(Resume resume, int index) {
+    protected void saveResume(Resume resume, Object searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
-    protected void updateResume(Resume resume, int index) {
+    protected void updateResume(Resume resume, Object searchKey) {
         storage.replace(resume.getUuid(), resume);
     }
 
-    protected Resume getResume(int index, String uuid) {
-        return storage.get(uuid);
+    protected Resume getResume(Object searchKey, Object uuid) {
+        return storage.get(uuid.toString());
     }
 
-    protected void deleteResume(int index, String uuid) {
-        storage.remove(uuid);
+    protected void deleteResume(Object searchKey, Object uuid) {
+        storage.remove(uuid.toString());
     }
 
-    protected int getIndex(String uuid) {
-        int index = -1;
+    protected Object getSearchKey(String uuid) {
+        int searchKey = -1;
         for (Map.Entry<String, Resume> i : storage.entrySet()) {
             if (uuid.equals(i.getKey())) {
-                index = uuid.hashCode();
+                searchKey = uuid.hashCode();
                 break;
             }
         }
-        return index;
+        return searchKey;
     }
 
     public Resume[] getAll() {
@@ -46,5 +46,4 @@ public class MapStorage extends AbstractStorage {
     public int size() {
         return storage.size();
     }
-
 }

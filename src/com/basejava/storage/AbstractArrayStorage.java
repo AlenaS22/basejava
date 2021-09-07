@@ -15,28 +15,28 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected void saveResume(Resume resume, int index) {
+    protected void saveResume(Resume resume, Object index) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Резюме невозможно сохранить! Хранилище переполнено. Обратитесь к администратору.", resume.getUuid());
         }
-        saveToArray(resume, index);
+        saveToArray(resume, (Integer) index);
         size++;
     }
 
     protected abstract void saveToArray(Resume resume, int index);
 
-    protected void updateResume(Resume resume, int index) {
-        storage[index] = resume;
+    protected void updateResume(Resume resume, Object index) {
+        storage[(Integer) index] = resume;
     }
 
-    protected Resume getResume(int index, String uuid) {
-        return storage[index];
+    protected Resume getResume(Object index, Object uuid) {
+        return storage[(Integer) index];
     }
 
-    protected void deleteResume(int index, String uuid) {
-        int numMoved = size - 1 - index;
+    protected void deleteResume(Object index, Object uuid) {
+        int numMoved = size - 1 - (Integer) index;
         if (numMoved > 0) {
-            System.arraycopy(storage, index + 1, storage, index, numMoved);
+            System.arraycopy(storage, (Integer) index + 1, storage, (Integer) index, numMoved);
         }
         storage[size - 1] = null;
         size--;
