@@ -7,7 +7,7 @@ import com.basejava.model.Resume;
 public abstract class AbstractStorage implements Storage {
     public void save(Resume resume) {
         Object searchKey = getSearchKey(resume.getUuid());
-        if ((Integer) searchKey >= 0) {
+        if (searchKey.hashCode() >= 0) {
             throw new ExistStorageException(resume.getUuid());
         }
         saveResume(resume, searchKey);
@@ -26,7 +26,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected Object verifyKeyNotExist(String uuid) {  ///
         Object searchKey = getSearchKey(uuid);
-        if ((Integer) searchKey < 0) {
+        if (searchKey.hashCode() < 0) {
             throw new NotExistStorageException(uuid);
         }
         return searchKey;
@@ -34,15 +34,15 @@ public abstract class AbstractStorage implements Storage {
 
     public Resume get(String uuid) {
         Object searchKey = verifyKeyNotExist(uuid);
-        return getResume(searchKey, uuid);
+        return getResume(searchKey);
     }
 
-    protected abstract Resume getResume(Object searchKey, Object uuid); //
+    protected abstract Resume getResume(Object searchKey); //
 
     public void delete(String uuid) {
         Object searchKey = verifyKeyNotExist(uuid);
-        deleteResume(searchKey, uuid);
+        deleteResume(searchKey);
     }
 
-    protected abstract void deleteResume(Object searchKey, Object uuid); //
+    protected abstract void deleteResume(Object searchKey); //
 }

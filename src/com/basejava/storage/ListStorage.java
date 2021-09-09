@@ -21,12 +21,12 @@ public class ListStorage extends AbstractStorage {
         storage.set((Integer) index, resume);
     }
 
-    protected Resume getResume(Object index, Object uuid) {
+    protected Resume getResume(Object index) {
         return storage.get((Integer) index);
     }
 
-    protected void deleteResume(Object index, Object uuid) {
-        storage.remove(((Integer) index).intValue());
+    protected void deleteResume(Object index) {
+        storage.remove((int) index);
     }
 
     protected Object getSearchKey(String uuid) {

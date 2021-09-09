@@ -20,19 +20,19 @@ public class MapStorage extends AbstractStorage {
         storage.replace(resume.getUuid(), resume);
     }
 
-    protected Resume getResume(Object searchKey, Object uuid) {
-        return storage.get(uuid.toString());
+    protected Resume getResume(Object searchKey) { //
+        return storage.get(searchKey.toString());
     }
 
-    protected void deleteResume(Object searchKey, Object uuid) {
-        storage.remove(uuid.toString());
+    protected void deleteResume(Object searchKey) { //
+        storage.remove(searchKey.toString());
     }
 
     protected Object getSearchKey(String uuid) {
-        int searchKey = -1;
+        Object searchKey = -1;
         for (Map.Entry<String, Resume> i : storage.entrySet()) {
             if (uuid.equals(i.getKey())) {
-                searchKey = uuid.hashCode();
+                searchKey = uuid;
                 break;
             }
         }
