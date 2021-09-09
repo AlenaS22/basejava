@@ -5,6 +5,7 @@ import com.basejava.exception.NotExistStorageException;
 import com.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
+    @Override
     public void save(Resume resume) {
         Object searchKey = getSearchKey(resume.getUuid());
         if (searchKey.hashCode() >= 0) {
@@ -17,6 +18,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getSearchKey(String uuid); ///
 
+    @Override
     public void update(Resume resume) {
         Object searchKey = verifyKeyNotExist(resume.getUuid());
         updateResume(resume, searchKey);
@@ -32,6 +34,7 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
+    @Override
     public Resume get(String uuid) {
         Object searchKey = verifyKeyNotExist(uuid);
         return getResume(searchKey);
@@ -39,6 +42,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Resume getResume(Object searchKey); //
 
+    @Override
     public void delete(String uuid) {
         Object searchKey = verifyKeyNotExist(uuid);
         deleteResume(searchKey);

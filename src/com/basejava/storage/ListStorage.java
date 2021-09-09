@@ -9,26 +9,32 @@ import java.util.List;
 public class ListStorage extends AbstractStorage {
     private final List<Resume> storage = new ArrayList<>();
 
+    @Override
     public void clear() {
         storage.clear();
     }
 
+    @Override
     protected void saveResume(Resume resume, Object index) {
         storage.add(resume);
     }
 
+    @Override
     protected void updateResume(Resume resume, Object index) {
         storage.set((Integer) index, resume);
     }
 
+    @Override
     protected Resume getResume(Object index) {
         return storage.get((Integer) index);
     }
 
+    @Override
     protected void deleteResume(Object index) {
         storage.remove((int) index);
     }
 
+    @Override
     protected Object getSearchKey(String uuid) {
         int index = -1;
         for (int i = 0; i < storage.size(); i++) {
@@ -40,10 +46,12 @@ public class ListStorage extends AbstractStorage {
         return index;
     }
 
+    @Override
     public Resume[] getAll() {
         return storage.toArray(new Resume[0]);
     }
 
+    @Override
     public int size() {
         return storage.size();
     }
