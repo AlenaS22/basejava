@@ -25,7 +25,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object index) {
+    protected Resume getResume(
+            Object index) {
         return storage.get((Integer) index);
     }
 
@@ -46,9 +47,13 @@ public class ListStorage extends AbstractStorage {
         return index;
     }
 
-    @Override
+    /* * @Override
     public Resume[] getAll() {
         return storage.toArray(new Resume[0]);
+    } */
+    @Override
+    public List<Resume> getCopyStorage() {
+        return new ArrayList<>(storage);
     }
 
     @Override
