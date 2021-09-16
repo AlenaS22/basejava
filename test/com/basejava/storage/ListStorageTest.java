@@ -5,7 +5,4 @@ public class ListStorageTest extends AbstractStorageTest {
         super(new ListStorage());
     }
 
-    public boolean value() {
-        return false;
-    }
 }

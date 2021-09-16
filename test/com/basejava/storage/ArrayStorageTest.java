@@ -1,11 +1,7 @@
 package com.basejava.storage;
 
-class ArrayStorageTest extends AbstractStorageTest {
+class ArrayStorageTest extends AbstractArrayStorageTest {
     public ArrayStorageTest() {
         super(new ArrayStorage());
-    }
-
-    public boolean value() {
-        return true;
     }
 }

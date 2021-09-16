@@ -5,7 +5,5 @@ class MapStorageResumeTest extends AbstractStorageTest {
         super(new MapStorageResume());
     }
 
-    public boolean value() {
-        return false;
-    }
+
 }

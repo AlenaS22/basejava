@@ -2,16 +2,15 @@ package com.basejava.storage;
 
 import com.basejava.exception.ExistStorageException;
 import com.basejava.exception.NotExistStorageException;
-import com.basejava.exception.StorageException;
 import com.basejava.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIf;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
@@ -24,9 +23,9 @@ public abstract class AbstractStorageTest {
     private static final Resume r3 = new Resume(UUID_3, "name3");
     private static final Resume r4 = new Resume(UUID_4, "name4");
 
-    private final Storage storage;
+    protected final Storage storage;
 
-    public AbstractStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -54,19 +53,6 @@ public abstract class AbstractStorageTest {
     @Test
     void saveExist() {
         assertThrows(ExistStorageException.class, () -> storage.save(r1));
-    }
-
-    @Test
-    @EnabledIf(value = "value", disabledReason = "saveOverflow() выполняется только для ArrayStorage и SortedArrayStorage")
-    void saveOverflow() {
-        try {
-            for (int i = 3; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume("name"));
-            }
-        } catch (StorageException ex) {
-            fail("Преждевременное переполнение хранилища");
-        }
-        assertThrows(StorageException.class, () -> storage.save(new Resume("name")));
     }
 
     @Test
@@ -101,13 +87,6 @@ public abstract class AbstractStorageTest {
     void deleteNotExist() {
         assertThrows(NotExistStorageException.class, () -> storage.delete(UUID_4));
     }
-
-    /* *@Test
-    void getAll() {
-        Resume[] actualResumes = storage.getAll();
-        Resume[] expectedArray = {r1, r2, r3};
-        assertArrayEquals(expectedArray, actualResumes);
-    }*/
 
     @Test
     void getAllSorted() {

@@ -37,16 +37,11 @@ public class MapStorageResume extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storage.containsKey(uuid) ? storage.get(uuid) : -1;
+        return storage.get(uuid) != null ? storage.get(uuid) : -1;
     }
 
-    /* *@Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
-    }*/
-
     @Override
-    public List<Resume> getCopyStorage() {
+    public List<Resume> getStorageAsList() {
         return new ArrayList<>(storage.values());
     }
 
